@@ -13,3 +13,4 @@ stock-app/node_modules/
 stock-app/dist/
 stock-app/.env.local
 stock-app/.env.*.local
+node_modules

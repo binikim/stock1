@@ -1,0 +1,15 @@
+# Node.js portable binary
+node/
+
+# OS generated files
+.DS_Store
+.localized
+
+# Local environment variables
+.env*.local
+
+# Build outputs and dependencies inside the subfolder (just in case)
+stock-app/node_modules/
+stock-app/dist/
+stock-app/.env.local
+stock-app/.env.*.local

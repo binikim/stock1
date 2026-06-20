@@ -139,7 +139,7 @@ export const Settings: React.FC<SettingsProps> = ({
         onImportRecords(parsedRecords, importMode);
         setImportStatus({
           success: true,
-          message: `성공적으로 ${parsedRecords.length}개의 거래 기록을 가져왔습니다.`,
+          message: `성공적으로 ${parsedRecords.length}개의 거래 기록을 복구했습니다.`,
         });
 
         if (fileInputRef.current) {
@@ -148,7 +148,7 @@ export const Settings: React.FC<SettingsProps> = ({
       } catch (err: any) {
         setImportStatus({
           success: false,
-          message: `가져오기 실패: ${err.message || '파일 분석 중 에러'}`,
+          message: `가져오기 실패: ${err.message || '파일 분석 오류'}`,
         });
       }
     };
@@ -157,172 +157,171 @@ export const Settings: React.FC<SettingsProps> = ({
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-8 animate-fade-in">
-      {/* 데이터 유실 주의 경고 및 타이틀 */}
+    <div className="max-w-3xl mx-auto space-y-6 animate-fade-in">
+      {/* 데이터 유실 주의 경고 */}
       <div className="space-y-4">
         <div>
-          <h4 className="text-lg font-bold text-slate-900 dark:text-slate-100">환경 설정 및 자산 백업</h4>
-          <p className="text-xs text-slate-400 dark:text-slate-550 mt-1">애플리케이션 옵션 조정 및 데이터 보존 장치를 설정합니다.</p>
+          <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-150">환경 설정 및 자산 백업</h4>
+          <p className="text-xs text-zinc-400 dark:text-zinc-550 mt-1">애플리케이션 옵션 조정 및 데이터 보존 장치를 설정합니다.</p>
         </div>
 
-        {/* 로컬스토리지 경고 카드 (Glow 및 그라데이션) */}
-        <div className="bg-amber-500/10 dark:bg-amber-950/20 border border-amber-500/30 dark:border-amber-900/40 rounded-3xl p-6 flex items-start space-x-3.5 text-slate-700 dark:text-slate-350">
-          <AlertTriangle className="w-5 h-5 text-amber-550 flex-shrink-0 mt-0.5" />
+        {/* 로컬스토리지 경고 카드 */}
+        <div className="bg-zinc-100 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 flex items-start space-x-3.5 text-zinc-700 dark:text-zinc-350">
+          <AlertTriangle className="w-5 h-5 text-zinc-500 flex-shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <h5 className="text-sm font-extrabold text-slate-900 dark:text-amber-400">데이터 유실 경고 (서버 미보유)</h5>
-            <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-400">
-              본 서비스는 가입 절차나 서버 백엔드가 존재하지 않아 데이터 유출 염려가 없습니다. 다만, **모든 데이터는 브라우저 내부 LocalStorage에 보존**되므로 캐시를 지우거나, 시크릿 탭 실행, 또는 브라우저 데이터를 삭제할 시 거래 이력이 **모두 파기되며 복구가 불가능**합니다. 주기적인 CSV 다운로드 백업을 간곡히 권장합니다.
+            <h5 className="text-xs font-bold text-zinc-900 dark:text-zinc-200">데이터 보존 안내 (로컬 저장 방식)</h5>
+            <p className="text-[11px] leading-relaxed text-zinc-550 dark:text-zinc-500">
+              본 서비스는 백엔드 서버 없이 브라우저 내부 LocalStorage에만 기록을 적재합니다. 기기 변경, 시크릿 모드 사용 또는 브라우저 캐시 삭제 시 자산 이력이 **모두 파기되며 복구가 불가능**하므로 수시로 아래 백업 파일을 로컬 기기에 받아두시기 바랍니다.
             </p>
           </div>
         </div>
       </div>
 
       {/* 1. API 키 설정 카드 */}
-      <div className="glass-panel rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
-        <div className="flex items-center space-x-2.5 pb-4 border-b border-slate-100 dark:border-white/5">
-          <div className="p-1.5 bg-indigo-50 dark:bg-indigo-950/40 rounded-lg text-indigo-550 dark:text-indigo-400">
-            <Key className="w-5 h-5" />
+      <div className="flat-panel rounded-xl p-6 shadow-sm space-y-6">
+        <div className="flex items-center space-x-2.5 pb-4 border-b border-zinc-200 dark:border-zinc-800">
+          <div className="p-1.5 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 rounded-lg">
+            <Key className="w-4 h-4" />
           </div>
-          <h5 className="text-base font-bold text-slate-900 dark:text-slate-100">외부 API 자격 증명 관리</h5>
+          <h5 className="text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100">API 자격 증명 관리</h5>
         </div>
 
         {/* 보안 경고 */}
-        <div className="bg-rose-500/10 border border-rose-500/20 dark:border-rose-900/30 rounded-2xl p-5 flex items-start space-x-3.5 text-rose-650 dark:text-rose-400">
-          <ShieldAlert className="w-5 h-5 flex-shrink-0 mt-0.5 text-rose-500" />
+        <div className="bg-zinc-50 dark:bg-zinc-900/10 border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 flex items-start space-x-3 text-zinc-650 dark:text-zinc-400">
+          <ShieldAlert className="w-4.5 h-4.5 flex-shrink-0 mt-0.5 text-zinc-500" />
           <div className="space-y-1">
-            <h5 className="text-xs font-bold">평문 저장에 대한 보안 주의 경고</h5>
-            <p className="text-[11px] leading-relaxed text-slate-550 dark:text-slate-400">
-              사용자가 설정한 모든 API 키는 암호화되지 않은 평문 상태로 브라우저 로컬 저장소에 기입됩니다.
-              따라서 **여러 명이 공용으로 공유하는 PC 또는 외부 브라우저** 환경에서는 타인에 의해 유출될 위험이 있으므로 자격 증명 키 보존에 신중해 주시기 바랍니다.
+            <h5 className="text-[11px] font-bold">평문 저장에 대한 보안 주의 경고</h5>
+            <p className="text-[10px] leading-relaxed text-zinc-500">
+              입력하신 모든 외부 API 키는 암호화 없이 브라우저 저장소에 그대로 기입되므로, 공용 디바이스(학교, PC방 등) 또는 타인과 공용하는 브라우저 환경에서는 키를 입력하지 않거나 사용 후 기입 정보를 삭제해 주시기 바랍니다.
             </p>
           </div>
         </div>
 
-        <div className="space-y-5 text-sm">
+        <div className="space-y-4 text-xs">
           {/* Gemini API Key */}
-          <div className="space-y-1.5">
-            <label htmlFor="input-gemini-key" className="block font-bold text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
+          <div className="space-y-1">
+            <label htmlFor="input-gemini-key" className="block font-bold text-[10px] uppercase tracking-wider text-zinc-450 dark:text-zinc-550">
               Gemini API Key (AI 포트폴리오 상담용)
             </label>
             <input
               id="input-gemini-key"
               type="password"
-              placeholder="대화 분석에 필요한 Google AI Studio API 키 기입"
+              placeholder="Google AI Studio API Key"
               value={geminiApiKey}
               onChange={(e) => onUpdateGeminiKey(e.target.value)}
-              className="w-full px-4.5 py-3 bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-mono text-xs text-slate-900 dark:text-white"
+              className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-250 dark:border-zinc-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-zinc-400 font-mono text-xs text-zinc-900 dark:text-white"
             />
-            <p className="text-[10px] text-slate-400 dark:text-slate-555">
-              Google AI Studio 웹페이지에서 무료 발급이 가능하며, 보유 자산을 분석해 줄 비서 모델 `gemini-3-flash-preview` 연동에 쓰입니다.
+            <p className="text-[9px] text-zinc-400 dark:text-zinc-650">
+              Google AI Studio에서 발급받으실 수 있으며, 보유 자산 기반 대화 모델 `gemini-3-flash-preview` 호출에 사용됩니다.
             </p>
           </div>
 
           {/* Finnhub API Key */}
-          <div className="space-y-1.5">
-            <label htmlFor="input-stock-key" className="block font-bold text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-550">
-              Finnhub API Key (실시간 현재가 조회용)
+          <div className="space-y-1">
+            <label htmlFor="input-stock-key" className="block font-bold text-[10px] uppercase tracking-wider text-zinc-450 dark:text-zinc-550">
+              Finnhub API Key (실시간 시세 갱신용)
             </label>
             <input
               id="input-stock-key"
               type="password"
-              placeholder="실시간 주가 조회에 필요한 Finnhub API 토큰 기입"
+              placeholder="Finnhub.io API Token"
               value={stockApiKey}
               onChange={(e) => onUpdateStockKey(e.target.value)}
-              className="w-full px-4.5 py-3 bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-mono text-xs text-slate-900 dark:text-white"
+              className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-250 dark:border-zinc-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-zinc-400 font-mono text-xs text-zinc-900 dark:text-white"
             />
-            <p className="text-[10px] text-slate-400 dark:text-slate-555">
-              Finnhub.io 에서 무료 가입 시 얻을 수 있으며, 포트폴리오 테이블의 현재가 자동 업데이트 처리에 사용됩니다.
+            <p className="text-[9px] text-zinc-400 dark:text-zinc-655">
+              Finnhub 무료 회원가입 후 토큰을 등록하시면 포트폴리오의 실시간 종목가 갱신 혜택을 제공받으실 수 있습니다.
             </p>
           </div>
         </div>
       </div>
 
-      {/* 2. 테마 설정 카드 (글래스 패널) */}
-      <div className="glass-panel rounded-3xl p-6 shadow-sm flex items-center justify-between border border-white/20 dark:border-white/5">
-        <div className="flex items-center space-x-3.5">
-          <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-2xl text-slate-600 dark:text-slate-350 shadow-inner">
-            {isDarkMode ? <Moon className="w-5 h-5 text-violet-500" /> : <Sun className="w-5 h-5 text-amber-500" />}
+      {/* 2. 테마 설정 카드 */}
+      <div className="flat-panel rounded-xl p-5 flex items-center justify-between border border-zinc-200 dark:border-zinc-800">
+        <div className="flex items-center space-x-3">
+          <div className="p-1.5 bg-zinc-150 dark:bg-zinc-800 rounded-lg text-zinc-600 dark:text-zinc-350 shadow-inner">
+            {isDarkMode ? <Moon className="w-4.5 h-4.5 text-zinc-900 dark:text-zinc-100" /> : <Sun className="w-4.5 h-4.5 text-zinc-900" />}
           </div>
           <div>
-            <h5 className="text-sm font-bold text-slate-900 dark:text-slate-100">다크 테마 환경</h5>
-            <p className="text-xs text-slate-400 dark:text-slate-550">어둡고 편안한 느낌의 스페이스 다크 스킨으로 전환합니다.</p>
+            <h5 className="text-xs font-bold text-zinc-900 dark:text-zinc-100">다크 모드</h5>
+            <p className="text-[10px] text-zinc-450 dark:text-zinc-550">화면의 조도 테마 모드를 전환합니다.</p>
           </div>
         </div>
         <button
           onClick={onToggleDarkMode}
-          className={`relative inline-flex h-6.5 w-12 items-center rounded-full transition-colors focus:outline-none ${
-            isDarkMode ? 'bg-indigo-600' : 'bg-slate-250 dark:bg-slate-800'
+          className={`relative inline-flex h-5.5 w-10.5 items-center rounded-full transition-colors focus:outline-none ${
+            isDarkMode ? 'bg-zinc-900 dark:bg-zinc-100' : 'bg-zinc-200 dark:bg-zinc-800'
           }`}
         >
           <span
             className={`${
-              isDarkMode ? 'translate-x-6' : 'translate-x-1'
-            } inline-block h-4.5 w-4.5 transform rounded-full bg-white transition-transform shadow`}
+              isDarkMode ? 'translate-x-5.5' : 'translate-x-0.5'
+            } inline-block h-4.5 w-4.5 transform rounded-full bg-white dark:bg-[#09090b] transition-transform`}
           />
         </button>
       </div>
 
       {/* 3. CSV 백업 및 복원 카드 */}
-      <div className="glass-panel rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
-        <div className="flex items-center space-x-2.5 pb-4 border-b border-slate-100 dark:border-white/5">
-          <div className="p-1.5 bg-indigo-50 dark:bg-indigo-950/40 rounded-lg text-indigo-550 dark:text-indigo-400">
-            <FileText className="w-5 h-5" />
+      <div className="flat-panel rounded-xl p-6 md:p-8 shadow-sm space-y-6">
+        <div className="flex items-center space-x-2.5 pb-4 border-b border-zinc-200 dark:border-zinc-800">
+          <div className="p-1.5 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 rounded-lg">
+            <FileText className="w-4.5 h-4.5" />
           </div>
-          <h5 className="text-base font-bold text-slate-900 dark:text-slate-100">자산 데이터 백업 및 복원</h5>
+          <h5 className="text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100">거래 데이터 백업 및 복원</h5>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
           {/* 내보내기 */}
-          <div className="p-5 border border-slate-200/50 dark:border-white/5 bg-slate-50/40 dark:bg-slate-900/20 rounded-2xl flex flex-col justify-between">
+          <div className="p-5 border border-zinc-200 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-[#121214] rounded-lg flex flex-col justify-between">
             <div className="space-y-1 mb-4">
-              <h6 className="font-bold text-slate-800 dark:text-slate-200">일지 CSV 파일 다운로드</h6>
-              <p className="text-[11px] leading-relaxed text-slate-400 dark:text-slate-500">
-                현재 보존되어 있는 모든 매매 체결 일지 기록을 엑셀과 호환되는 CSV 백업본으로 즉시 저장합니다.
+              <h6 className="font-bold text-xs text-zinc-800 dark:text-zinc-250">CSV 파일로 내보내기</h6>
+              <p className="text-[10px] leading-relaxed text-zinc-400 dark:text-zinc-600">
+                로컬에 보존되어 있는 모든 거래 일지 데이터를 기기에 CSV 백업 파일 형식으로 내려받습니다.
               </p>
             </div>
             <button
               onClick={handleExportCSV}
-              className="flex items-center justify-center space-x-2 w-full py-2.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/60 transition-all shadow-sm hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center justify-center space-x-1.5 w-full py-2 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-lg text-xs font-semibold border border-zinc-200 dark:border-zinc-750 hover:bg-zinc-50 dark:hover:bg-zinc-700/60 transition-colors"
             >
-              <Download className="w-4 h-4" />
-              <span>백업 파일 내보내기</span>
+              <Download className="w-3.5 h-3.5" />
+              <span>백업 파일 내려받기</span>
             </button>
           </div>
 
           {/* 가져오기 */}
-          <div className="p-5 border border-slate-200/50 dark:border-white/5 bg-slate-50/40 dark:bg-slate-900/20 rounded-2xl space-y-4">
+          <div className="p-5 border border-zinc-200 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-[#121214] rounded-lg space-y-4">
             <div className="space-y-1">
-              <h6 className="font-bold text-slate-800 dark:text-slate-200">CSV 데이터 일지 복구</h6>
-              <p className="text-[11px] leading-relaxed text-slate-400 dark:text-slate-500">
-                이전에 기기에 다운로드받은 CSV 데이터 파일을 업로드하여 기존 데이터를 복원합니다.
+              <h6 className="font-bold text-xs text-zinc-800 dark:text-zinc-250">백업 파일 올리기</h6>
+              <p className="text-[10px] leading-relaxed text-zinc-400 dark:text-zinc-600">
+                기존에 다운로드해 놓은 거래 일지 CSV 파일을 업로드하여 데이터를 원상 복구합니다.
               </p>
             </div>
 
-            {/* 가져오기 옵션 */}
-            <div className="flex items-center space-x-4 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-              <label className="flex items-center space-x-1.5 cursor-pointer hover:text-indigo-500 transition-colors">
+            {/* 복구 라디오 */}
+            <div className="flex flex-col space-y-1.5 text-[9px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+              <label className="flex items-center space-x-1.5 cursor-pointer">
                 <input
                   type="radio"
                   name="import-mode"
                   checked={importMode === 'append'}
                   onChange={() => setImportMode('append')}
-                  className="w-3.5 h-3.5 text-indigo-600 focus:ring-indigo-500 accent-indigo-600"
+                  className="w-3 h-3 text-zinc-900 focus:ring-zinc-400 accent-zinc-900 dark:accent-zinc-100"
                 />
-                <span>이어서 덧붙이기 (Append)</span>
+                <span>기존 기록 유지하며 덧붙이기 (Append)</span>
               </label>
-              <label className="flex items-center space-x-1.5 cursor-pointer hover:text-indigo-500 transition-colors">
+              <label className="flex items-center space-x-1.5 cursor-pointer">
                 <input
                   type="radio"
                   name="import-mode"
                   checked={importMode === 'overwrite'}
                   onChange={() => setImportMode('overwrite')}
-                  className="w-3.5 h-3.5 text-indigo-600 focus:ring-indigo-500 accent-indigo-600"
+                  className="w-3 h-3 text-zinc-900 focus:ring-zinc-400 accent-zinc-900 dark:accent-zinc-100"
                 />
-                <span>새 데이터로 덮어쓰기 (Overwrite)</span>
+                <span>기존 기록 무시하고 덮어쓰기 (Overwrite)</span>
               </label>
             </div>
 
-            <div className="flex items-center space-x-2 pt-1">
+            <div className="flex items-center space-x-2">
               <input
                 type="file"
                 accept=".csv"
@@ -332,26 +331,26 @@ export const Settings: React.FC<SettingsProps> = ({
               />
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="flex items-center justify-center space-x-2 w-full py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-750 hover:from-indigo-700 hover:to-indigo-850 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-indigo-600/15 hover:scale-[1.02] active:scale-[0.98]"
+                className="flex items-center justify-center space-x-1.5 w-full py-2 bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-white dark:text-zinc-900 rounded-lg text-xs font-semibold transition-colors"
               >
-                <Upload className="w-4 h-4" />
-                <span>백업 파일 업로드</span>
+                <Upload className="w-3.5 h-3.5" />
+                <span>백업 파일 복구하기</span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* 복구 성공/실패 문구 */}
+        {/* 상태 메시지 */}
         {importStatus && (
-          <div className={`p-4 rounded-2xl border flex items-start space-x-2.5 text-xs font-semibold animate-fade-in ${
+          <div className={`p-3.5 rounded-lg border flex items-start space-x-2 text-[11px] font-semibold animate-fade-in ${
             importStatus.success
-              ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-250 text-emerald-650 dark:text-emerald-450 shadow-sm'
-              : 'bg-rose-50 dark:bg-rose-950/20 border-rose-250 text-rose-650 dark:text-rose-400 shadow-sm'
+              ? 'bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-250 shadow-sm'
+              : 'bg-red-50 dark:bg-red-950/20 border-red-200/50 dark:border-red-900/40 text-red-650 dark:text-red-400 shadow-sm'
           }`}>
             {importStatus.success ? (
-              <CheckCircle className="w-4.5 h-4.5 flex-shrink-0 mt-0.5 text-emerald-500" />
+              <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-zinc-550 dark:text-zinc-350" />
             ) : (
-              <AlertTriangle className="w-4.5 h-4.5 flex-shrink-0 mt-0.5 text-rose-500" />
+              <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-500" />
             )}
             <span>{importStatus.message}</span>
           </div>

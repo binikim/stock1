@@ -34,7 +34,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({
     try {
       await onSendMessage(messageContent);
     } catch (err) {
-      // 에러 핸들링
+      // 에러 처리
     }
   };
 
@@ -46,40 +46,37 @@ export const ChatBot: React.FC<ChatBotProps> = ({
     return text.split('\n').map((line, lineIdx) => {
       let currentLine = line;
 
-      // 1. 헤더 처리 (###)
       if (currentLine.startsWith('### ')) {
         return (
-          <h5 key={lineIdx} className="text-sm font-extrabold text-slate-900 dark:text-white mt-4 mb-1.5 flex items-center space-x-1">
-            <span className="w-1 h-3.5 bg-indigo-500 rounded-full" />
+          <h5 key={lineIdx} className="text-xs font-bold text-zinc-900 dark:text-zinc-50 mt-3 mb-1.5 flex items-center space-x-1.5">
+            <span className="w-1 h-3 bg-zinc-800 dark:bg-zinc-200 rounded-full" />
             <span>{currentLine.replace('### ', '')}</span>
           </h5>
         );
       }
       if (currentLine.startsWith('## ')) {
         return (
-          <h4 key={lineIdx} className="text-base font-extrabold text-indigo-900 dark:text-indigo-400 mt-5 mb-2.5">
+          <h4 key={lineIdx} className="text-sm font-bold text-zinc-900 dark:text-zinc-50 mt-4 mb-2">
             {currentLine.replace('## ', '')}
           </h4>
         );
       }
 
-      // 2. 리스트 처리 (- 또는 *)
       const listMatch = currentLine.match(/^[-*]\s+(.*)$/);
       if (listMatch) {
         return (
-          <li key={lineIdx} className="ml-4 list-disc text-xs md:text-sm text-slate-700 dark:text-slate-300 my-1 leading-relaxed">
+          <li key={lineIdx} className="ml-4 list-disc text-xs text-zinc-650 dark:text-zinc-350 my-1 leading-relaxed">
             {parseInlineMarkdown(listMatch[1])}
           </li>
         );
       }
 
-      // 3. 일반 줄바꿈 처리 및 인라인 마크다운 렌더링
       if (currentLine.trim() === '') {
-        return <div key={lineIdx} className="h-2" />;
+        return <div key={lineIdx} className="h-1.5" />;
       }
 
       return (
-        <p key={lineIdx} className="text-xs md:text-sm leading-relaxed text-slate-750 dark:text-slate-300">
+        <p key={lineIdx} className="text-xs leading-relaxed text-zinc-700 dark:text-zinc-350">
           {parseInlineMarkdown(currentLine)}
         </p>
       );
@@ -93,14 +90,14 @@ export const ChatBot: React.FC<ChatBotProps> = ({
 
     return parts.map((part, index) => {
       if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={index} className="font-extrabold text-slate-950 dark:text-white">{part.slice(2, -2)}</strong>;
+        return <strong key={index} className="font-bold text-zinc-900 dark:text-zinc-50">{part.slice(2, -2)}</strong>;
       }
       if (part.startsWith('*') && part.endsWith('*')) {
-        return <em key={index} className="italic text-slate-800 dark:text-slate-200">{part.slice(1, -1)}</em>;
+        return <em key={index} className="italic text-zinc-750 dark:text-zinc-300">{part.slice(1, -1)}</em>;
       }
       if (part.startsWith('`') && part.endsWith('`')) {
         return (
-          <code key={index} className="px-2 py-0.5 bg-slate-200/50 dark:bg-slate-800 font-mono text-[11px] text-indigo-600 dark:text-indigo-400 rounded-lg border border-slate-300/30 dark:border-white/5">
+          <code key={index} className="px-1.5 py-0.5 bg-zinc-100 dark:bg-zinc-800 font-mono text-[10px] text-zinc-800 dark:text-zinc-200 rounded border border-zinc-200 dark:border-zinc-700">
             {part.slice(1, -1)}
           </code>
         );
@@ -111,19 +108,19 @@ export const ChatBot: React.FC<ChatBotProps> = ({
 
   if (!apiKey) {
     return (
-      <div className="flex flex-col items-center justify-center p-8 glass-panel border border-white/20 dark:border-white/5 rounded-3xl min-h-[480px] space-y-6 text-center animate-fade-in">
-        <div className="p-4.5 bg-gradient-to-tr from-indigo-500/10 to-indigo-500/20 dark:from-indigo-950/40 dark:to-indigo-950/60 rounded-full text-indigo-600 dark:text-indigo-400 shadow-inner">
-          <Key className="w-10 h-10 animate-pulse" />
+      <div className="flex flex-col items-center justify-center p-8 flat-panel rounded-xl min-h-[450px] space-y-6 text-center animate-fade-in">
+        <div className="p-4 bg-zinc-100 dark:bg-zinc-800/80 rounded-full text-zinc-850 dark:text-zinc-200">
+          <Key className="w-8 h-8" />
         </div>
         <div className="max-w-sm space-y-2">
-          <h4 className="text-lg font-bold text-slate-900 dark:text-white">투자 조언용 AI 비서 설정 필요</h4>
-          <p className="text-xs text-slate-450 dark:text-slate-400 leading-relaxed">
+          <h4 className="text-sm font-bold text-zinc-900 dark:text-white">AI 자산 비서 연동 설정 필요</h4>
+          <p className="text-xs text-zinc-400 dark:text-zinc-500 leading-relaxed">
             사용자의 포트폴리오를 자산 비서가 실시간으로 분석하고 분산 투자에 대한 맞춤 컨설팅을 제공하기 위해 **Gemini API 키**를 먼저 등록해 주세요.
           </p>
         </div>
         <button
           onClick={onNavigateToSettings}
-          className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-indigo-750 hover:from-indigo-700 hover:to-indigo-850 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-indigo-600/15 hover:scale-[1.02] active:scale-[0.98]"
+          className="flex items-center space-x-1.5 px-4.5 py-2.5 bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-white dark:text-zinc-950 rounded-lg text-xs font-semibold transition-all"
         >
           <Sparkles className="w-4 h-4" />
           <span>설정으로 이동하여 API 키 등록</span>
@@ -133,43 +130,43 @@ export const ChatBot: React.FC<ChatBotProps> = ({
   }
 
   return (
-    <div className="glass-panel border border-white/20 dark:border-white/5 rounded-3xl shadow-sm flex flex-col h-[640px] overflow-hidden animate-fade-in">
+    <div className="flat-panel rounded-xl shadow-sm flex flex-col h-[600px] overflow-hidden animate-fade-in">
       {/* 챗봇 헤더 */}
-      <div className="px-6 py-4 bg-slate-50/40 dark:bg-slate-850/15 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
+      <div className="px-6 py-4 bg-zinc-55/40 dark:bg-zinc-900/10 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="p-2.5 bg-gradient-to-tr from-indigo-600 via-indigo-750 to-purple-650 text-white rounded-2xl shadow-md shadow-indigo-550/20">
-            <Bot className="w-5 h-5" />
+          <div className="p-2 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 rounded-lg">
+            <Bot className="w-4.5 h-4.5" />
           </div>
           <div>
-            <h4 className="text-sm font-extrabold text-slate-900 dark:text-slate-100">AI 포트폴리오 코파일럿</h4>
+            <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100">AI 포트폴리오 비서</h4>
             <div className="flex items-center space-x-1.5 mt-0.5">
-              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-              <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">포트폴리오 대화 연동 완료</span>
+              <span className="w-1.5 h-1.5 bg-zinc-400 dark:bg-zinc-650 rounded-full" />
+              <span className="text-[9px] text-zinc-400 dark:text-zinc-550 font-bold uppercase tracking-wider">포트폴리오 대화 연동</span>
             </div>
           </div>
         </div>
         {chatHistory.length > 0 && (
           <button
             onClick={onClearChat}
-            className="flex items-center space-x-1.5 text-xs text-rose-500 hover:text-rose-700 font-bold p-2.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-950/20 transition-all active:scale-95"
+            className="flex items-center space-x-1 text-[11px] text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 font-bold p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800/40 rounded transition-colors"
           >
-            <Trash2 className="w-4 h-4" />
-            <span>상담 초기화</span>
+            <Trash2 className="w-3.5 h-3.5" />
+            <span>대화 청소</span>
           </button>
         )}
       </div>
 
-      {/* 대화 기록 */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-5">
+      {/* 대화 이력 영역 */}
+      <div className="flex-1 overflow-y-auto p-6 space-y-4">
         {chatHistory.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
-            <div className="w-14 h-14 bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-100/50 dark:border-indigo-900/30 rounded-2xl flex items-center justify-center text-indigo-500 shadow-inner">
-              <Bot className="w-7 h-7" />
+            <div className="w-10 h-10 bg-zinc-100 dark:bg-zinc-800/50 rounded-lg flex items-center justify-center text-zinc-500">
+              <Bot className="w-5 h-5" />
             </div>
-            <div className="max-w-sm space-y-1">
-              <p className="text-slate-800 dark:text-slate-200 font-bold text-sm">무엇이든 분석해 드립니다</p>
-              <p className="text-slate-400 dark:text-slate-500 text-xs leading-relaxed">
-                현재 포트폴리오 자산 배분 비중의 안정성, 수익률 개선 가이드, 그리고 리스크 관리 방안에 대해 인공지능 투자 상담을 나누어 보세요.
+            <div className="max-w-xs space-y-1">
+              <p className="text-zinc-800 dark:text-zinc-200 font-bold text-xs">무엇이든 분석해 드립니다</p>
+              <p className="text-zinc-400 dark:text-zinc-600 text-[10px] leading-relaxed">
+                현재 포트폴리오 자산 배분 비중의 안정성, 수익률 개선 가이드, 그리고 리스크 관리 방안에 대해 AI 비서와 상담을 나누어 보세요.
               </p>
             </div>
           </div>
@@ -179,31 +176,31 @@ export const ChatBot: React.FC<ChatBotProps> = ({
             return (
               <div
                 key={message.id}
-                className={`flex space-x-3.5 ${isBot ? 'justify-start' : 'justify-end'}`}
+                className={`flex space-x-3 ${isBot ? 'justify-start' : 'justify-end'}`}
               >
                 {/* 봇 아바타 */}
                 {isBot && (
-                  <div className="w-9 h-9 rounded-2xl bg-indigo-50/60 dark:bg-indigo-950/40 text-indigo-650 dark:text-indigo-400 flex items-center justify-center flex-shrink-0 border border-indigo-100/40 dark:border-indigo-900/30 shadow-inner">
-                    <Bot className="w-4.5 h-4.5" />
+                  <div className="w-7 h-7 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-650 dark:text-zinc-350 flex items-center justify-center flex-shrink-0 border border-zinc-200/50 dark:border-zinc-700/50 shadow-inner">
+                    <Bot className="w-3.5 h-3.5" />
                   </div>
                 )}
 
                 {/* 챗 버블 */}
                 <div
-                  className={`max-w-[78%] rounded-2xl p-4.5 shadow-sm text-slate-800 dark:text-slate-100 ${
+                  className={`max-w-[78%] rounded-xl p-3.5 text-zinc-850 dark:text-zinc-100 text-xs md:text-sm ${
                     isBot
-                      ? 'bg-slate-50/70 dark:bg-slate-850/50 border border-slate-100 dark:border-white/5 rounded-tl-none leading-relaxed'
-                      : 'bg-gradient-to-tr from-indigo-600 via-indigo-750 to-purple-650 text-white rounded-tr-none shadow-indigo-650/15'
+                      ? 'bg-zinc-50/50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-tl-none leading-relaxed'
+                      : 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 rounded-tr-none'
                   }`}
                 >
                   {isBot ? (
-                    <div className="space-y-1.5">{renderMarkdown(message.content)}</div>
+                    <div className="space-y-1">{renderMarkdown(message.content)}</div>
                   ) : (
-                    <p className="text-xs md:text-sm leading-relaxed">{message.content}</p>
+                    <p className="leading-relaxed text-xs">{message.content}</p>
                   )}
                   <div
-                    className={`text-[9px] text-right mt-1.5 select-none ${
-                      isBot ? 'text-slate-400 dark:text-slate-500' : 'text-indigo-200'
+                    className={`text-[8px] text-right mt-1 select-none ${
+                      isBot ? 'text-zinc-400 dark:text-zinc-500' : 'text-zinc-300 dark:text-zinc-600'
                     }`}
                   >
                     {new Date(message.timestamp).toLocaleTimeString([], {
@@ -215,8 +212,8 @@ export const ChatBot: React.FC<ChatBotProps> = ({
 
                 {/* 유저 아바타 */}
                 {!isBot && (
-                  <div className="w-9 h-9 rounded-2xl bg-slate-100 dark:bg-slate-850 text-slate-650 dark:text-slate-350 flex items-center justify-center flex-shrink-0 shadow-inner border border-slate-200/50 dark:border-white/5">
-                    <User className="w-4.5 h-4.5" />
+                  <div className="w-7 h-7 rounded-lg bg-zinc-150 dark:bg-zinc-800 text-zinc-650 dark:text-zinc-350 flex items-center justify-center flex-shrink-0 shadow-inner border border-zinc-200/50 dark:border-zinc-700/50">
+                    <User className="w-3.5 h-3.5" />
                   </div>
                 )}
               </div>
@@ -224,40 +221,40 @@ export const ChatBot: React.FC<ChatBotProps> = ({
           })
         )}
 
-        {/* AI 타이핑 로더 */}
+        {/* 로딩인디케이터 */}
         {isSending && (
-          <div className="flex space-x-3.5 justify-start animate-pulse">
-            <div className="w-9 h-9 rounded-2xl bg-indigo-50/60 dark:bg-indigo-950/40 text-indigo-650 dark:text-indigo-400 flex items-center justify-center flex-shrink-0 border border-indigo-100/40 dark:border-indigo-900/30 shadow-inner">
-              <Bot className="w-4.5 h-4.5" />
+          <div className="flex space-x-3 justify-start animate-pulse">
+            <div className="w-7 h-7 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-650 dark:text-zinc-350 flex items-center justify-center flex-shrink-0 border border-zinc-200/50 dark:border-zinc-700/50 shadow-inner">
+              <Bot className="w-3.5 h-3.5 animate-spin" />
             </div>
-            <div className="bg-slate-50/70 dark:bg-slate-850/50 border border-slate-100 dark:border-white/5 rounded-2xl rounded-tl-none p-4 flex items-center space-x-2 text-xs text-slate-400">
-              <Loader2 className="w-4 h-4 animate-spin text-indigo-500" />
-              <span>포트폴리오 비서가 자산 데이터 요약을 기반으로 답변을 구성 중입니다...</span>
+            <div className="bg-zinc-50/50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl rounded-tl-none p-3 flex items-center space-x-2 text-[10px] text-zinc-400">
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-zinc-550" />
+              <span>포트폴리오 비서가 답변을 기안 중입니다...</span>
             </div>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* 대화 입력 창 */}
+      {/* 입력 창 */}
       <form
         onSubmit={handleSend}
-        className="px-6 py-4.5 bg-slate-50/40 dark:bg-slate-850/15 border-t border-slate-100 dark:border-white/5 flex items-center space-x-3"
+        className="px-6 py-4 bg-zinc-55/40 dark:bg-zinc-900/10 border-t border-zinc-200 dark:border-zinc-800 flex items-center space-x-2"
       >
         <input
           type="text"
-          placeholder="나의 현재 자산 포트폴리오를 평가하고 보완할 점을 조언해 줘..."
+          placeholder="자산 데이터를 기반으로 개선할 부분 조언해 줘..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           disabled={isSending}
-          className="flex-1 px-4.5 py-3 text-xs md:text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 text-slate-900 dark:text-white placeholder-slate-400 disabled:opacity-55"
+          className="flex-1 px-4 py-2.5 text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-750 rounded-lg focus:outline-none focus:ring-1 focus:ring-zinc-400 text-zinc-900 dark:text-white disabled:opacity-55"
         />
         <button
           type="submit"
           disabled={!inputValue.trim() || isSending}
-          className="p-3 bg-gradient-to-tr from-indigo-600 via-indigo-700 to-purple-650 text-white rounded-2xl transition-all shadow disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.04] active:scale-[0.96]"
+          className="p-2.5 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
         >
-          <Send className="w-4 h-4" />
+          <Send className="w-3.5 h-3.5" />
         </button>
       </form>
     </div>

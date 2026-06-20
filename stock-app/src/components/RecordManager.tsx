@@ -114,12 +114,12 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
       {/* 상단 액션 바 */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h4 className="text-lg font-bold text-slate-900 dark:text-slate-100">매수 거래 이력</h4>
-          <p className="text-xs text-slate-400 dark:text-slate-550 mt-1">자신의 매매 일지를 기록하고 자유롭게 관리하세요.</p>
+          <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">매수 거래 이력</h4>
+          <p className="text-xs text-zinc-400 dark:text-zinc-550 mt-1">자신의 매매 일지를 기록하고 자유롭게 관리하세요.</p>
         </div>
         <button
           onClick={openAddModal}
-          className="flex items-center justify-center space-x-2 px-5 py-3 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-750 hover:to-violet-750 text-white rounded-2xl text-xs font-bold transition-all shadow-md shadow-indigo-500/10 hover:scale-[1.02] active:scale-[0.98]"
+          className="flex items-center justify-center space-x-1.5 px-4 py-2 bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-white dark:text-zinc-950 rounded-lg text-xs font-semibold transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>매수 기록 추가</span>
@@ -127,60 +127,56 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
       </div>
 
       {/* 1. 매수 기록 테이블 */}
-      <div className="glass-panel rounded-3xl shadow-sm overflow-hidden border border-white/20 dark:border-white/5">
+      <div className="flat-panel rounded-xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[900px]">
             <thead>
-              <tr className="bg-slate-50/40 dark:bg-slate-850/20 text-slate-455 dark:text-slate-400 text-[10px] font-bold uppercase tracking-widest border-b border-slate-100 dark:border-white/5">
-                <th className="py-4.5 px-6">매수일</th>
-                <th className="py-4.5 px-6">종목명 / 티커</th>
-                <th className="py-4.5 px-6 text-center">시장</th>
-                <th className="py-4.5 px-6 text-right">매수 단가</th>
-                <th className="py-4.5 px-6 text-right">체결 수량</th>
-                <th className="py-4.5 px-6 text-right">총 투자금액</th>
-                <th className="py-4.5 px-6">메모</th>
-                <th className="py-4.5 px-6 text-center">작업</th>
+              <tr className="bg-zinc-50/50 dark:bg-zinc-900/10 text-zinc-450 dark:text-zinc-500 text-[10px] font-bold uppercase tracking-wider border-b border-zinc-250/60 dark:border-zinc-800">
+                <th className="py-4 px-6">매수일</th>
+                <th className="py-4 px-6">종목명/티커</th>
+                <th className="py-4 px-6 text-center">시장</th>
+                <th className="py-4 px-6 text-right">매수가</th>
+                <th className="py-4 px-6 text-right">수량</th>
+                <th className="py-4 px-6 text-right">총 투자금</th>
+                <th className="py-4 px-6">메모</th>
+                <th className="py-4 px-6 text-center">관리</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-white/5 text-sm text-slate-700 dark:text-slate-300">
+            <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800/80 text-xs md:text-sm text-zinc-700 dark:text-zinc-300">
               {records.length > 0 ? (
                 records
                   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                   .map((record) => (
-                    <tr key={record.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-850/25 transition-colors">
-                      <td className="py-4 px-6 font-mono text-xs text-slate-500 dark:text-slate-400">
+                    <tr key={record.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-850/25 transition-colors">
+                      <td className="py-4 px-6 font-mono text-xs text-zinc-550 dark:text-zinc-400">
                         {record.date}
                       </td>
                       <td className="py-4 px-6">
-                        <div className="font-bold text-slate-900 dark:text-slate-105">{record.name}</div>
-                        <div className="text-[10px] text-slate-400 dark:text-slate-550 font-mono mt-0.5 tracking-wider">{record.ticker}</div>
+                        <div className="font-semibold text-zinc-900 dark:text-zinc-100">{record.name}</div>
+                        <div className="text-[10px] text-zinc-450 mt-0.5">{record.ticker}</div>
                       </td>
                       <td className="py-4 px-6 text-center">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-lg text-[10px] font-bold ${
-                          record.market === 'domestic'
-                            ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-900/30'
-                            : 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-900/30'
-                        }`}>
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-650 dark:text-zinc-350 border border-zinc-200 dark:border-zinc-700">
                           {record.market === 'domestic' ? '국내' : '해외'}
                         </span>
                       </td>
-                      <td className="py-4 px-6 text-right font-mono font-medium text-slate-650 dark:text-slate-350">
+                      <td className="py-4 px-6 text-right font-mono font-medium text-zinc-550">
                         {formatCurrency(record.price, record.market)}
                       </td>
-                      <td className="py-4 px-6 text-right font-mono font-medium text-slate-800 dark:text-slate-200">
+                      <td className="py-4 px-6 text-right font-mono font-medium">
                         {record.quantity.toLocaleString()}
                       </td>
-                      <td className="py-4 px-6 text-right font-mono font-bold text-slate-900 dark:text-slate-100">
+                      <td className="py-4 px-6 text-right font-mono font-bold text-zinc-900 dark:text-zinc-100">
                         {formatCurrency(record.price * record.quantity, record.market)}
                       </td>
-                      <td className="py-4 px-6 text-slate-500 dark:text-slate-400 max-w-xs truncate text-xs">
-                        {record.memo || <span className="text-slate-300 dark:text-slate-700">-</span>}
+                      <td className="py-4 px-6 text-zinc-500 dark:text-zinc-400 max-w-xs truncate text-xs">
+                        {record.memo || <span className="text-zinc-300 dark:text-zinc-700">-</span>}
                       </td>
                       <td className="py-4 px-6 text-center">
                         <div className="flex items-center justify-center space-x-1.5">
                           <button
                             onClick={() => openEditModal(record)}
-                            className="p-2 bg-slate-50 dark:bg-slate-800 hover:bg-indigo-50 hover:text-indigo-650 dark:hover:bg-indigo-950/30 dark:hover:text-indigo-400 text-slate-600 dark:text-slate-300 rounded-xl transition-all"
+                            className="p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-150 rounded transition-colors"
                             title="수정"
                           >
                             <Edit2 className="w-3.5 h-3.5" />
@@ -191,7 +187,7 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
                                 onDeleteRecord(record.id);
                               }
                             }}
-                            className="p-2 bg-slate-50 dark:bg-slate-800 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400 text-slate-600 dark:text-slate-300 rounded-xl transition-all"
+                            className="p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-red-500 rounded transition-colors"
                             title="삭제"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -202,8 +198,8 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
                   ))
               ) : (
                 <tr>
-                  <td colSpan={8} className="py-16 px-6 text-center text-slate-400 dark:text-slate-500">
-                    거래 기록이 존재하지 않습니다. 우측 상단의 거래 기록 추가 버튼을 클릭해 매매 기록을 추가해 보세요.
+                  <td colSpan={8} className="py-12 px-6 text-center text-zinc-400 dark:text-zinc-500">
+                    거래 기록이 존재하지 않습니다.
                   </td>
                 </tr>
               )}
@@ -214,20 +210,18 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
 
       {/* 2. 종목별 매수 이력 타임라인 */}
       {uniqueTickers.length > 0 && (
-        <div className="glass-panel rounded-3xl p-6 md:p-8 shadow-sm">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-            <h4 className="text-lg font-bold text-slate-900 dark:text-slate-100 flex items-center space-x-2.5">
-              <div className="p-1.5 bg-indigo-50 dark:bg-indigo-950/40 rounded-lg text-indigo-550 dark:text-indigo-400">
-                <Calendar className="w-5 h-5" />
-              </div>
+        <div className="flat-panel rounded-xl p-6 md:p-8 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-450 dark:text-zinc-550 flex items-center space-x-2">
+              <Calendar className="w-4 h-4 text-zinc-455" />
               <span>보유 자산 거래 연대기</span>
             </h4>
             <div className="flex items-center space-x-2">
-              <span className="text-xs text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">대상 종목:</span>
+              <span className="text-xs text-zinc-400 dark:text-zinc-500 font-semibold uppercase">대상 종목:</span>
               <select
                 value={selectedTimelineTicker}
                 onChange={(e) => setSelectedTimelineTicker(e.target.value)}
-                className="px-3.5 py-2 text-xs font-bold bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="px-3 py-1.5 text-xs font-bold bg-white dark:bg-[#121214] border border-zinc-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-zinc-450 text-zinc-900 dark:text-white"
               >
                 {uniqueTickers.map((t) => {
                   const itemRecords = records.filter((r) => r.ticker === t);
@@ -242,40 +236,40 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
           </div>
 
           {/* 타임라인 바디 */}
-          <div className="relative pl-8 border-l border-slate-200 dark:border-white/10 space-y-6 ml-3 py-1">
+          <div className="relative pl-6 border-l border-zinc-200 dark:border-zinc-800 space-y-4 ml-2 py-1">
             {timelineRecords.map((r) => (
-              <div key={r.id} className="relative group">
+              <div key={r.id} className="relative">
                 {/* 타임라인 도트 */}
-                <div className="absolute -left-[37px] top-1.5 w-4 h-4 bg-indigo-600 rounded-full border-4 border-white dark:border-[#030712] shadow group-hover:scale-110 transition-transform" />
+                <div className="absolute -left-[29px] top-1.5 w-2.5 h-2.5 bg-zinc-900 dark:bg-zinc-100 rounded-full border-2 border-white dark:border-[#09090b] shadow-sm" />
                 
                 {/* 타임라인 카드 */}
-                <div className="bg-slate-50/40 dark:bg-slate-900/35 border border-slate-100 dark:border-white/5 rounded-2xl p-5 hover-premium">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 dark:border-white/5 pb-3 mb-3">
-                    <span className="font-mono text-xs font-extrabold text-indigo-650 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 px-2.5 py-1 rounded-xl">
+                <div className="bg-white dark:bg-[#121214] border border-zinc-200 dark:border-zinc-800 rounded-lg p-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-zinc-150 dark:border-zinc-800 pb-2 mb-2">
+                    <span className="font-mono text-xs font-bold text-zinc-650 dark:text-zinc-350 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">
                       {r.date}
                     </span>
-                    <span className="text-xs font-semibold text-slate-550 dark:text-slate-400">
-                      총 매매금액: <span className="font-mono font-bold text-slate-800 dark:text-slate-200">{formatCurrency(r.price * r.quantity, r.market)}</span>
+                    <span className="text-xs text-zinc-400 dark:text-zinc-500">
+                      총 매매금액: <span className="font-mono font-bold text-zinc-800 dark:text-zinc-200">{formatCurrency(r.price * r.quantity, r.market)}</span>
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-4 text-xs">
                     <div>
-                      <p className="text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">매수가</p>
-                      <p className="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 mt-1">
+                      <p className="text-zinc-400 dark:text-zinc-500 font-bold uppercase tracking-wider">매수가</p>
+                      <p className="font-mono font-bold text-zinc-800 dark:text-zinc-200 mt-0.5">
                         {formatCurrency(r.price, r.market)}
                       </p>
                     </div>
                     <div>
-                      <p className="text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">매수 수량</p>
-                      <p className="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 mt-1">
+                      <p className="text-zinc-400 dark:text-zinc-500 font-bold uppercase tracking-wider">매수 수량</p>
+                      <p className="font-mono font-bold text-zinc-800 dark:text-zinc-200 mt-0.5">
                         {r.quantity.toLocaleString()} 주
                       </p>
                     </div>
                   </div>
                   {r.memo && (
-                    <div className="mt-4 pt-3.5 border-t border-slate-200/40 dark:border-white/5 flex items-start space-x-2 text-xs text-slate-500 dark:text-slate-400">
-                      <FileText className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
-                      <span className="leading-relaxed">{r.memo}</span>
+                    <div className="mt-3 pt-2.5 border-t border-zinc-150 dark:border-zinc-800 flex items-start space-x-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+                      <FileText className="w-3.5 h-3.5 text-zinc-400 mt-0.5 flex-shrink-0" />
+                      <span>{r.memo}</span>
                     </div>
                   )}
                 </div>
@@ -285,27 +279,27 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
         </div>
       )}
 
-      {/* 3. 추가/수정 모달 (Glassmorphic) */}
+      {/* 3. 추가/수정 모달 */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md animate-fade-in">
-          <div className="bg-white/90 dark:bg-slate-900/90 border border-white/20 dark:border-white/5 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden transform transition-all duration-300">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white dark:bg-[#121214] border border-zinc-200 dark:border-zinc-800 rounded-xl w-full max-w-lg shadow-xl overflow-hidden transform transition-all duration-200">
             {/* 모달 헤더 */}
-            <div className="px-6 py-5 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
-              <h3 className="text-base font-extrabold text-slate-900 dark:text-slate-100">
+            <div className="px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
                 {editingRecord ? '매수 기록 편집' : '신규 매수 기록 작성'}
               </h3>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl"
+                className="text-zinc-400 hover:text-zinc-650 dark:hover:text-zinc-200 transition-colors p-1"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* 모달 폼 */}
-            <form onSubmit={handleSubmit} className="p-6 space-y-5">
+            <form onSubmit={handleSubmit} className="p-6 space-y-4">
               {validationError && (
-                <div className="p-3.5 bg-rose-50 dark:bg-rose-950/20 border border-rose-200/60 dark:border-rose-900/40 text-rose-650 dark:text-rose-400 rounded-2xl flex items-start space-x-2.5 text-xs font-semibold">
+                <div className="p-3 bg-red-50 dark:bg-red-950/20 border border-red-200/50 dark:border-red-900/40 text-red-650 dark:text-red-400 rounded-lg flex items-start space-x-2 text-xs font-semibold">
                   <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
                   <span>{validationError}</span>
                 </div>
@@ -313,17 +307,17 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
 
               {/* 시장 구분 */}
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
-                  주식 시장 구분 *
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-1.5">
+                  시장 구분 *
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setMarket('domestic')}
-                    className={`py-2.5 rounded-xl text-xs font-bold border transition-all ${
+                    className={`py-2 rounded-lg text-xs font-bold border transition-all ${
                       market === 'domestic'
-                        ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border-blue-400 shadow-sm'
-                        : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-slate-500 text-xs'
+                        ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700'
+                        : 'border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900/30 text-zinc-500'
                     }`}
                   >
                     국내 주식 시장 (KRW)
@@ -331,10 +325,10 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
                   <button
                     type="button"
                     onClick={() => setMarket('foreign')}
-                    className={`py-2.5 rounded-xl text-xs font-bold border transition-all ${
+                    className={`py-2 rounded-lg text-xs font-bold border transition-all ${
                       market === 'foreign'
-                        ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border-amber-400 shadow-sm'
-                        : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-slate-500 text-xs'
+                        ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700'
+                        : 'border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900/30 text-zinc-500'
                     }`}
                   >
                     해외 주식 시장 (USD)
@@ -345,7 +339,7 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
               {/* 티커 & 종목명 */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="modal-ticker" className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">
+                  <label htmlFor="modal-ticker" className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-1.5">
                     티커 / 종목코드 *
                   </label>
                   <input
@@ -354,12 +348,12 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
                     placeholder={market === 'domestic' ? '예: 005930' : '예: AAPL'}
                     value={ticker}
                     onChange={(e) => setTicker(e.target.value)}
-                    className="w-full px-4 py-2.5 text-xs bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 text-slate-900 dark:text-white"
+                    className="w-full px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-zinc-400 text-zinc-900 dark:text-white"
                     required
                   />
                 </div>
                 <div>
-                  <label htmlFor="modal-name" className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">
+                  <label htmlFor="modal-name" className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-1.5">
                     종목 이름 *
                   </label>
                   <input
@@ -368,7 +362,7 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
                     placeholder="예: 삼성전자, 애플"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-2.5 text-xs bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 text-slate-900 dark:text-white"
+                    className="w-full px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-zinc-400 text-zinc-900 dark:text-white"
                     required
                   />
                 </div>
@@ -377,7 +371,7 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
               {/* 매수 단가 & 수량 */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="modal-price" className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">
+                  <label htmlFor="modal-price" className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-1.5">
                     매수 단가 * {market === 'domestic' ? '(₩)' : '($)'}
                   </label>
                   <input
@@ -385,26 +379,26 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
                     type="number"
                     step="any"
                     min="0.0001"
-                    placeholder="체결가 입력"
+                    placeholder="체결가"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    className="w-full px-4 py-2.5 text-xs bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-mono text-slate-900 dark:text-white"
+                    className="w-full px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-zinc-400 font-mono text-zinc-900 dark:text-white"
                     required
                   />
                 </div>
                 <div>
-                  <label htmlFor="modal-quantity" className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">
-                    매수 체결 주수 *
+                  <label htmlFor="modal-quantity" className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-1.5">
+                    체결 주수 *
                   </label>
                   <input
                     id="modal-quantity"
                     type="number"
                     step="any"
                     min="0.0001"
-                    placeholder="수량 입력"
+                    placeholder="수량"
                     value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
-                    className="w-full px-4 py-2.5 text-xs bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-mono text-slate-900 dark:text-white"
+                    className="w-full px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-zinc-400 font-mono text-zinc-900 dark:text-white"
                     required
                   />
                 </div>
@@ -412,7 +406,7 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
 
               {/* 매수일 */}
               <div>
-                <label htmlFor="modal-date" className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">
+                <label htmlFor="modal-date" className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-1.5">
                   매매 체결 일자 *
                 </label>
                 <input
@@ -420,39 +414,39 @@ export const RecordManager: React.FC<RecordManagerProps> = ({
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full px-4 py-2.5 text-xs bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-mono text-slate-900 dark:text-white"
+                  className="w-full px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-zinc-400 font-mono text-zinc-900 dark:text-white"
                   required
                 />
               </div>
 
               {/* 메모 */}
               <div>
-                <label htmlFor="modal-memo" className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">
-                  거래 상세 메모
+                <label htmlFor="modal-memo" className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-1.5">
+                  상세 메모
                 </label>
                 <textarea
                   id="modal-memo"
-                  placeholder="예: 수수료 부담, 추매 진행, 목표 매도가 등 기재"
+                  placeholder="메모 사항 기재 (선택)"
                   value={memo}
                   onChange={(e) => setMemo(e.target.value)}
-                  className="w-full px-4 py-2.5 text-xs bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 h-20 resize-none text-slate-900 dark:text-white"
+                  className="w-full px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-zinc-400 h-16 resize-none text-zinc-900 dark:text-white"
                 />
               </div>
 
               {/* 하단 버튼 */}
-              <div className="pt-4 flex items-center justify-end space-x-2.5 border-t border-slate-100 dark:border-white/5">
+              <div className="pt-3.5 flex items-center justify-end space-x-2 border-t border-zinc-200 dark:border-zinc-800">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2.5 border border-slate-200 dark:border-slate-750 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl text-xs font-bold transition-all"
+                  className="px-3 py-2 border border-zinc-250 dark:border-zinc-700 text-zinc-550 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg text-xs font-semibold transition-all"
                 >
                   취소
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-750 hover:from-indigo-700 hover:to-indigo-850 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-indigo-600/15"
+                  className="px-5 py-2 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-200 rounded-lg text-xs font-semibold transition-all"
                 >
-                  {editingRecord ? '기록 저장하기' : '신규 기록 보존'}
+                  {editingRecord ? '저장하기' : '등록하기'}
                 </button>
               </div>
             </form>

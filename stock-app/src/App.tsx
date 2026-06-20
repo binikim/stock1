@@ -224,155 +224,110 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-55/40 dark:bg-slate-950 flex flex-col font-sans transition-colors duration-250">
-      {/* 글로벌 헤더 */}
-      <header className="sticky top-0 z-40 bg-white/70 dark:bg-slate-900/75 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/40">
+    <div className="min-h-screen bg-slate-50/50 dark:bg-[#030712] flex flex-col font-sans transition-colors duration-300 relative overflow-hidden">
+      {/* 3차원 네온 광원 배경 스폿 (Glassmorphism 극대화) */}
+      <div className="absolute top-[-100px] left-[-50px] blur-glow-purple opacity-70" />
+      <div className="absolute top-[400px] right-[-100px] blur-glow-indigo opacity-80" />
+      <div className="absolute bottom-[200px] left-[15%] blur-glow-purple opacity-50" />
+
+      {/* 글로벌 헤더 (Glassmorphic) */}
+      <header className="sticky top-0 z-40 glass-panel border-b border-white/20 dark:border-white/5 shadow-sm transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-gradient-to-tr from-indigo-650 to-violet-600 rounded-xl text-white shadow-md shadow-indigo-500/20">
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('dashboard')}>
+            <div className="p-2 bg-gradient-to-tr from-indigo-600 via-violet-600 to-pink-500 rounded-xl text-white shadow-lg shadow-indigo-500/20 transform hover:scale-105 transition-transform">
               <BarChart3 className="w-5 h-5" />
             </div>
             <div>
               <h1 className="text-base font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">
                 주식 가계부
               </h1>
-              <span className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold tracking-wider uppercase mt-1 block">
-                Portfolio Helper SPA
+              <span className="text-[9px] text-indigo-550 dark:text-indigo-400 font-bold tracking-wider uppercase mt-1 block">
+                Portfolio Copilot
               </span>
             </div>
           </div>
 
           {/* 데스크탑 탭 메뉴 */}
-          <nav className="hidden md:flex space-x-1">
-            <button
-              onClick={() => setActiveTab('dashboard')}
-              className={`flex items-center space-x-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                activeTab === 'dashboard'
-                  ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white shadow-inner'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/40'
-              }`}
-            >
-              <BarChart3 className="w-4 h-4 text-indigo-550" />
-              <span>대시보드</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('portfolio')}
-              className={`flex items-center space-x-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                activeTab === 'portfolio'
-                  ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white shadow-inner'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/40'
-              }`}
-            >
-              <TableProperties className="w-4 h-4 text-violet-550" />
-              <span>포트폴리오</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('records')}
-              className={`flex items-center space-x-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                activeTab === 'records'
-                  ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white shadow-inner'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/40'
-              }`}
-            >
-              <History className="w-4 h-4 text-sky-500" />
-              <span>매수 기록</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('chatbot')}
-              className={`flex items-center space-x-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                activeTab === 'chatbot'
-                  ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white shadow-inner'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/40'
-              }`}
-            >
-              <MessageSquareCode className="w-4 h-4 text-emerald-500" />
-              <span>AI 투자 상담</span>
-              {config.geminiApiKey && (
-                <span className="flex h-2 w-2 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
-              )}
-            </button>
-            <button
-              onClick={() => setActiveTab('settings')}
-              className={`flex items-center space-x-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                activeTab === 'settings'
-                  ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white shadow-inner'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/40'
-              }`}
-            >
-              <SettingsIcon className="w-4 h-4 text-slate-500" />
-              <span>설정</span>
-            </button>
+          <nav className="hidden md:flex space-x-2">
+            {[
+              { id: 'dashboard', label: '대시보드', icon: BarChart3, color: 'text-indigo-500' },
+              { id: 'portfolio', label: '포트폴리오', icon: TableProperties, color: 'text-violet-500' },
+              { id: 'records', label: '매수 기록', icon: History, color: 'text-sky-500' },
+              { id: 'chatbot', label: 'AI 투자 상담', icon: MessageSquareCode, color: 'text-emerald-500', badge: !!config.geminiApiKey },
+              { id: 'settings', label: '설정', icon: SettingsIcon, color: 'text-slate-400' },
+            ].map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 relative ${
+                    isActive
+                      ? 'bg-indigo-600 text-white shadow-md shadow-indigo-650/20 scale-[1.02]'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-slate-800/40'
+                  }`}
+                >
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : tab.color}`} />
+                  <span>{tab.label}</span>
+                  {tab.badge && (
+                    <span className="flex h-2 w-2 relative ml-1">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </nav>
         </div>
       </header>
 
-      {/* 모바일 탭 메뉴 (하단 고정 바 구조로 최적의 반응형 경험 제공) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-t border-slate-200/60 dark:border-slate-800/60 flex items-center justify-around py-2 shadow-lg">
-        <button
-          onClick={() => setActiveTab('dashboard')}
-          className={`flex flex-col items-center justify-center py-1 px-3 space-y-0.5 text-[10px] font-bold ${
-            activeTab === 'dashboard' ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400'
-          }`}
-        >
-          <BarChart3 className="w-5 h-5" />
-          <span>대시보드</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('portfolio')}
-          className={`flex flex-col items-center justify-center py-1 px-3 space-y-0.5 text-[10px] font-bold ${
-            activeTab === 'portfolio' ? 'text-violet-650 dark:text-violet-400' : 'text-slate-400'
-          }`}
-        >
-          <TableProperties className="w-5 h-5" />
-          <span>포트폴리오</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('records')}
-          className={`flex flex-col items-center justify-center py-1 px-3 space-y-0.5 text-[10px] font-bold ${
-            activeTab === 'records' ? 'text-sky-550 dark:text-sky-400' : 'text-slate-400'
-          }`}
-        >
-          <History className="w-5 h-5" />
-          <span>매수 기록</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('chatbot')}
-          className={`flex flex-col items-center justify-center py-1 px-3 space-y-0.5 text-[10px] font-bold relative ${
-            activeTab === 'chatbot' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'
-          }`}
-        >
-          <MessageSquareCode className="w-5 h-5" />
-          <span>AI 상담</span>
-          {config.geminiApiKey && (
-            <span className="absolute top-1 right-3 h-2 w-2 rounded-full bg-emerald-500" />
-          )}
-        </button>
-        <button
-          onClick={() => setActiveTab('settings')}
-          className={`flex flex-col items-center justify-center py-1 px-3 space-y-0.5 text-[10px] font-bold ${
-            activeTab === 'settings' ? 'text-slate-800 dark:text-white' : 'text-slate-400'
-          }`}
-        >
-          <SettingsIcon className="w-5 h-5" />
-          <span>설정</span>
-        </button>
+      {/* 모바일 탭 메뉴 (하단 고정) */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg border-t border-slate-200/50 dark:border-slate-800/50 flex items-center justify-around py-2 shadow-2xl">
+        {[
+          { id: 'dashboard', label: '대시보드', icon: BarChart3 },
+          { id: 'portfolio', label: '포트폴리오', icon: TableProperties },
+          { id: 'records', label: '매수 기록', icon: History },
+          { id: 'chatbot', label: 'AI 상담', icon: MessageSquareCode, badge: !!config.geminiApiKey },
+          { id: 'settings', label: '설정', icon: SettingsIcon },
+        ].map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`flex flex-col items-center justify-center py-1 px-3 space-y-0.5 text-[9px] font-bold transition-colors ${
+                isActive ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400'
+              }`}
+            >
+              <div className="relative">
+                <Icon className="w-5 h-5" />
+                {tab.badge && !isActive && (
+                  <span className="absolute top-0 right-0 h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                )}
+              </div>
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
       </nav>
 
       {/* 메인 콘텐츠 바디 */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8">
-        {/* 상시 데이터 유실 알림 배너 */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8 z-10 relative">
+        {/* 상시 데이터 유실 알림 배너 (더 고급스럽게 다듬음) */}
         {records.length > 0 && activeTab === 'dashboard' && (
-          <div className="mb-6 bg-slate-100/60 dark:bg-slate-900/40 border border-slate-200/40 dark:border-slate-800/40 rounded-2xl px-4 py-3 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-            <div className="flex items-center space-x-2">
-              <AlertCircle className="w-4 h-4 text-indigo-500" />
-              <span>현재 {records.length}개의 거래 내역이 저장되어 있습니다. 브라우저 로컬 저장소를 사용 중이므로 백업에 신경써 주세요.</span>
+          <div className="mb-6 bg-gradient-to-r from-indigo-50/70 to-violet-50/70 dark:from-indigo-950/20 dark:to-violet-950/20 border border-indigo-100/50 dark:border-indigo-900/30 rounded-2xl px-5 py-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-indigo-800 dark:text-indigo-300 backdrop-blur-sm">
+            <div className="flex items-center space-x-2.5">
+              <div className="p-1.5 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg text-indigo-600 dark:text-indigo-400">
+                <AlertCircle className="w-4 h-4" />
+              </div>
+              <span>현재 {records.length}개의 거래 내역이 브라우저 LocalStorage에만 보관 중입니다. 기기 변경 시 데이터가 소실되므로 수시로 백업해 주세요.</span>
             </div>
             <button
               onClick={() => setActiveTab('settings')}
-              className="text-indigo-650 hover:underline font-bold"
+              className="text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500/20 dark:hover:bg-indigo-500/40 border border-transparent dark:border-indigo-500/30 px-3.5 py-1.5 rounded-xl transition-all shadow-sm flex-shrink-0 self-end sm:self-auto"
             >
               CSV 백업받기
             </button>

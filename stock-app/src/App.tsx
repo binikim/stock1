@@ -19,7 +19,9 @@ import {
   History, 
   MessageSquareCode, 
   Settings as SettingsIcon,
-  AlertCircle
+  AlertCircle,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 function App() {
@@ -28,7 +30,7 @@ function App() {
   const [config, setConfig] = useLocalStorage<AppConfig>('stock_portfolio_config', {
     geminiApiKey: '',
     stockApiKey: '',
-    isDarkMode: false,
+    isDarkMode: true,
     manualPrices: {},
   });
   const [chatHistory, setChatHistory] = useLocalStorage<ChatMessage[]>('stock_portfolio_chat', []);
@@ -216,68 +218,79 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] dark:bg-[#09090b] flex flex-col font-sans transition-colors duration-200">
-      {/* 글로벌 헤더 (Minimal flat border) */}
-      <header className="sticky top-0 z-40 bg-white dark:bg-[#121214] border-b border-zinc-200 dark:border-zinc-800 transition-all duration-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-2.5 cursor-pointer" onClick={() => setActiveTab('dashboard')}>
-            <div className="p-1.5 bg-zinc-900 dark:bg-zinc-150 rounded-lg text-white dark:text-black">
-              <BarChart3 className="w-4 h-4" />
+    <div className="min-h-screen bg-[#f8fafc] dark:bg-[#070913] flex flex-col font-sans transition-colors duration-300 pb-20 md:pb-0">
+      {/* 글로벌 헤더 (Glassmorphism Fintech Header) */}
+      <header className="sticky top-0 z-40 glass-header transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+          <div className="flex items-center space-x-3 cursor-pointer group" onClick={() => setActiveTab('dashboard')}>
+            <div className="p-2.5 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl text-white shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform duration-300">
+              <BarChart3 className="w-5 h-5" />
             </div>
             <div>
-              <h1 className="text-sm font-bold tracking-tight text-zinc-900 dark:text-zinc-50 leading-none">
+              <h1 className="text-base font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-white dark:via-slate-100 dark:to-slate-300 leading-none">
                 주식 가계부
               </h1>
-              <span className="text-[9px] text-zinc-450 dark:text-zinc-500 font-bold tracking-wider uppercase mt-1 block">
+              <span className="text-[9px] text-indigo-500 dark:text-indigo-400 font-black tracking-widest uppercase mt-1.5 block">
                 Portfolio Copilot
               </span>
             </div>
           </div>
 
-          {/* 데스크탑 탭 메뉴 */}
-          <nav className="hidden md:flex space-x-1">
-            {[
-              { id: 'dashboard', label: '대시보드', icon: BarChart3 },
-              { id: 'portfolio', label: '포트폴리오', icon: TableProperties },
-              { id: 'records', label: '매수 기록', icon: History },
-              { id: 'chatbot', label: 'AI 투자 상담', icon: MessageSquareCode, badge: !!config.geminiApiKey },
-              { id: 'settings', label: '설정', icon: SettingsIcon },
-            ].map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold transition-all duration-150 ${
-                    isActive
-                      ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-bold'
-                      : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800/40'
-                  }`}
-                >
-                  <Icon className="w-3.5 h-3.5" />
-                  <span>{tab.label}</span>
-                  {tab.badge && (
-                    <span className="flex h-1.5 w-1.5 relative ml-1">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-zinc-500"></span>
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </nav>
+          {/* 데스크탑 탭 메뉴 & 테마 토글 */}
+          <div className="hidden md:flex items-center space-x-4">
+            <nav className="flex space-x-1.5 bg-slate-100/50 dark:bg-slate-950/40 p-1.5 rounded-2xl border border-slate-200/40 dark:border-slate-850/30">
+              {[
+                { id: 'dashboard', label: '대시보드', icon: BarChart3, activeClass: 'bg-gradient-to-r from-indigo-550 to-violet-600 text-white shadow-[0_8px_16px_-4px_rgba(99,102,241,0.3)]' },
+                { id: 'portfolio', label: '포트폴리오', icon: TableProperties, activeClass: 'bg-gradient-to-r from-violet-550 to-purple-600 text-white shadow-[0_8px_16px_-4px_rgba(139,92,246,0.3)]' },
+                { id: 'records', label: '매수 기록', icon: History, activeClass: 'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-[0_8px_16px_-4px_rgba(245,158,11,0.3)]' },
+                { id: 'chatbot', label: 'AI 투자 상담', icon: MessageSquareCode, activeClass: 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-[0_8px_16px_-4px_rgba(16,185,129,0.3)]', badge: !!config.geminiApiKey },
+                { id: 'settings', label: '설정', icon: SettingsIcon, activeClass: 'bg-gradient-to-r from-slate-700 to-slate-850 dark:from-slate-600 dark:to-slate-750 text-white shadow-[0_8px_16px_-4px_rgba(71,85,105,0.3)]' },
+              ].map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id as any)}
+                    className={`flex items-center space-x-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 btn-trendy ${
+                      isActive
+                        ? tab.activeClass
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/40'
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    <span>{tab.label}</span>
+                    {tab.badge && (
+                      <span className="flex h-1.5 w-1.5 relative ml-1.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-450 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
+
+            {/* 헤더 다크모드 토글 스위치 */}
+            <button
+              onClick={() => setConfig((prev) => ({ ...prev, isDarkMode: !prev.isDarkMode }))}
+              className="p-2.5 bg-white dark:bg-[#121320]/80 border border-slate-200/60 dark:border-slate-800/60 rounded-xl text-slate-600 dark:text-slate-450 hover:text-indigo-500 dark:hover:text-indigo-400 hover:scale-105 transition-all duration-200 shadow-sm"
+              title={config.isDarkMode ? '라이트 모드로 전환' : '다크 모드로 전환'}
+            >
+              {config.isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+          </div>
         </div>
       </header>
 
       {/* 모바일 탭 메뉴 (하단 고정) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#121214]/95 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-around py-2 shadow">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-45 bg-white/95 dark:bg-[#161822]/95 border-t border-[#e7e5e4] dark:border-[#232635] flex items-center justify-around py-2 shadow-lg">
         {[
-          { id: 'dashboard', label: '대시보드', icon: BarChart3 },
-          { id: 'portfolio', label: '포트폴리오', icon: TableProperties },
-          { id: 'records', label: '매수 기록', icon: History },
-          { id: 'chatbot', label: 'AI 상담', icon: MessageSquareCode, badge: !!config.geminiApiKey },
-          { id: 'settings', label: '설정', icon: SettingsIcon },
+          { id: 'dashboard', label: '대시보드', icon: BarChart3, color: 'text-teal-600 dark:text-teal-400' },
+          { id: 'portfolio', label: '포트폴리오', icon: TableProperties, color: 'text-violet-500' },
+          { id: 'records', label: '매수 기록', icon: History, color: 'text-amber-500' },
+          { id: 'chatbot', label: 'AI 상담', icon: MessageSquareCode, color: 'text-emerald-500', badge: !!config.geminiApiKey },
+          { id: 'settings', label: '설정', icon: SettingsIcon, color: 'text-stone-400' },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -286,13 +299,13 @@ function App() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex flex-col items-center justify-center py-1 px-3 space-y-0.5 text-[9px] font-bold transition-colors ${
-                isActive ? 'text-zinc-900 dark:text-zinc-100' : 'text-zinc-400'
+                isActive ? tab.color : 'text-stone-400'
               }`}
             >
               <div className="relative">
                 <Icon className="w-4.5 h-4.5" />
                 {tab.badge && !isActive && (
-                  <span className="absolute top-0 right-0 h-1.5 w-1.5 rounded-full bg-zinc-500" />
+                  <span className="absolute top-0 right-0 h-1.5 w-1.5 rounded-full bg-emerald-500" />
                 )}
               </div>
               <span>{tab.label}</span>
@@ -302,19 +315,19 @@ function App() {
       </nav>
 
       {/* 메인 콘텐츠 바디 */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8 relative">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
         {/* 상시 데이터 유실 알림 배너 */}
         {records.length > 0 && activeTab === 'dashboard' && (
-          <div className="mb-6 bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-zinc-650 dark:text-zinc-400">
+          <div className="mb-6 bg-amber-500/5 dark:bg-amber-950/10 border border-amber-500/20 dark:border-amber-900/30 rounded-2xl px-5 py-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-amber-850 dark:text-amber-400">
             <div className="flex items-center space-x-2">
-              <AlertCircle className="w-4 h-4 text-zinc-500" />
-              <span>현재 {records.length}개의 거래 데이터가 기기(브라우저) LocalStorage에만 적재되어 있습니다.</span>
+              <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-500" />
+              <span>현재 LocalStorage 상태입니다. 기기 이동 시 데이터를 지키기 위해 CSV 백업을 적극 활용하세요.</span>
             </div>
             <button
               onClick={() => setActiveTab('settings')}
-              className="text-xs font-bold text-zinc-900 dark:text-zinc-100 hover:underline flex-shrink-0"
+              className="text-xs font-bold text-amber-700 dark:text-amber-400 hover:underline flex-shrink-0"
             >
-              CSV 백업받기 →
+              CSV 백업본 내려받기 →
             </button>
           </div>
         )}

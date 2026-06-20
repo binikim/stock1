@@ -1,9 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;450;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap');
 
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif;
 }
 
 html, body {
@@ -15,33 +17,53 @@ html, body {
 }
 
 body {
-  background-color: #fafafa;
-  color: #09090b;
-  transition: background-color 0.2s, color 0.2s;
+  background-color: #f8fafc; /* 라이트 모드: 아주 연하고 세련된 슬레이트 화이트 */
+  color: #0f172a; /* 딥 네이비 */
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Dark mode - 지극히 미니멀한 딥 차콜 & 퓨어 블랙 테마 */
-.dark body {
-  background-color: #09090b;
-  color: #fafafa;
+/* Dark mode - 시크한 미래형 사이버 핀테크 다크 스페이스 */
+html.dark, html.dark body {
+  background-color: #070913 !important; /* 리치 다크 스페이스 */
+  color: #f8fafc;
 }
 
-/* Minimalist border accent panels */
-.flat-panel {
-  background-color: #ffffff;
-  border: 1px solid #e4e4e7;
+/* 글래스모피즘 카드 스타일 */
+.trendy-card {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 24px;
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04), 0 1px 3px -1px rgba(15, 23, 42, 0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dark .flat-panel {
-  background-color: #121214;
-  border: 1px solid #27272a;
+.dark .trendy-card {
+  background-color: rgba(21, 23, 37, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.03);
 }
 
-/* Subtly animated elements */
-@keyframes fadeIn {
+/* 카드 호버 효과 */
+.trendy-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+}
+
+.dark .trendy-card-hover:hover {
+  border-color: rgba(99, 102, 241, 0.4); /* 호버 시 은은한 인디고 테두리 */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 15px rgba(99, 102, 241, 0.15);
+}
+
+/* Keyframe animations */
+@keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(4px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -50,40 +72,75 @@ body {
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d4d4d8;
+  background: #cbd5e1;
   border-radius: 99px;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: #23273f;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a1a1aa;
+  background: #94a3b8;
 }
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: #33385c;
 }
 
-/* Premium flat transitions */
-.hover-flat {
-  transition: all 0.2s ease-in-out;
+/* Smooth premium transition utilities */
+.btn-trendy {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
-.hover-flat:hover {
-  border-color: #a1a1aa;
-  background-color: #fcfcfc;
+.btn-trendy:hover {
+  transform: translateY(-1.5px);
+  filter: brightness(1.05);
 }
-.dark .hover-flat:hover {
-  border-color: #52525b;
-  background-color: #151518;
+.btn-trendy:active {
+  transform: translateY(0.5px);
 }
+
+/* 글래스모피즘 헤더 */
+.glass-header {
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+.dark .glass-header {
+  background-color: rgba(11, 13, 23, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 인풋 글래스 */
+.input-glass {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(226, 232, 240, 1);
+  transition: all 0.2s;
+}
+.dark input-glass {
+  background-color: rgba(15, 17, 28, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.input-glass:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+.dark .input-glass:focus {
+  border-color: #818cf8;
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+}
+

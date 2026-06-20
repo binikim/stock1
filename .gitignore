@@ -8,9 +8,6 @@ node/
 # Local environment variables
 .env*.local
 
-# Build outputs and dependencies inside the subfolder (just in case)
-stock-app/node_modules/
-stock-app/dist/
-stock-app/.env.local
-stock-app/.env.*.local
-node_modules
+# Build outputs and dependencies
+node_modules/
+dist/
